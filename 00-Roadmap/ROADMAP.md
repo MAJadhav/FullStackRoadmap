@@ -63,10 +63,10 @@ Folder: `02-Angular-Modern/week02/`
 | Wed | `resource()` and `httpResource()` ⚠️ (experimental in 21, **stable in 22**) | Fetch users from a free fake API (e.g. JSONPlaceholder) with `httpResource`, showing loading/error/value states |
 | Thu | RxJS interop: `toSignal`, `toObservable`, `takeUntilDestroyed`, `DestroyRef`; when RxJS is still the right tool (debounce, websockets, complex streams) | Search box: RxJS `debounceTime` + `switchMap`, result exposed as a signal |
 | Fri | HTTP: `provideHttpClient(withFetch(), withInterceptors([...]))`, **functional interceptors** | Logging + error-handling functional interceptors |
-| Sat | Router: functional guards (`CanActivateFn`), resolvers, `withComponentInputBinding()` (route params as inputs), lazy routes, title strategy | Mini app: list → details (id via input), guarded admin route |
+| Sat | Router: functional guards (`CanActivateFn`, `CanMatchFn`), redirecting with a `UrlTree`, resolvers, `withComponentInputBinding()` (route params as inputs), lazy routes, title strategy. **Auth part 1 (mock):** an `AuthService` with signals (`currentUser`, `isLoggedIn`, `roles`) and hard-coded users, no backend yet | Mini app: list → details (id via input). `authGuard` redirects to `/login?returnUrl=…`; a `canMatch` role guard protects a lazy `/admin` route |
 | Sun | Revision + questions | — |
 
-✅ Zoneless app using signals, resource, interceptors and guards
+✅ Zoneless app using signals, resource, interceptors and guards (including the mock auth + role guards)
 
 ## Week 3 — Forms, state, SSR, accessibility (14–20 Dec)
 Folder: `02-Angular-Modern/week03/`
@@ -78,10 +78,10 @@ Folder: `02-Angular-Modern/week03/`
 | Wed | State management with signals: service-with-signals store pattern; overview of NgRx SignalStore (optional, free library) | `CartStore` service: state signal, computed selectors, methods as actions |
 | Thu | SSR + hydration: `@angular/ssr`, `provideClientHydration`, incremental hydration, `isPlatformBrowser`, what breaks on the server (window/localStorage) | `ng new ssr-lab --ssr`, view page source, add incremental hydration to a `@defer` block |
 | Fri | Performance: `NgOptimizedImage`, bundle budgets, `ng build --stats-json`, lazy loading strategy; Angular Aria / a11y basics | Measure a Lighthouse score before and after the optimisations |
-| Sat | **Mini-project:** "Task Board" using everything from Weeks 1–3 (signals store, Signal Forms, defer, guards, httpResource against a mock API) | Build it |
+| Sat | **Mini-project:** "Task Board" using everything from Weeks 1–3 (signals store, Signal Forms, defer, guards, httpResource against a mock API). **Auth part 2 (mock):** login page + signals auth store, a functional `authInterceptor` that attaches `Authorization: Bearer <fake token>`, Owner/Member roles, role-based UI (only the Owner can delete), logout | Build it. If it runs over, finish the auth part on Sunday before revision |
 | Sun | Revision + questions | — |
 
-✅ Task Board app (this becomes your Week 4 testing target)
+✅ Task Board app with mock login + roles (this becomes your Week 4 testing target)
 
 ## Week 4 — Unit testing: Jasmine + Karma, then Vitest (21–27 Dec)
 Folder: `03-Angular-Testing/`
@@ -91,7 +91,7 @@ Folder: `03-Angular-Testing/`
 | Mon | Testing pyramid; Jasmine syntax: `describe/it/expect`, matchers, `beforeEach`, spies (`spyOn`, `jasmine.createSpyObj`). Karma's role (browser runner) | Create `karma-lab` choosing Jasmine/Karma at `ng new` ⚠️ (check `ng new --help` for the test-runner option in your CLI version). Write tests for a pure `PriceCalculator` class |
 | Tue | `TestBed`: configuring standalone components, `fixture.detectChanges()` vs zoneless (`fixture.whenStable()`), querying the DOM, testing `input()`/`output()` | Test the rating component from Week 1 |
 | Wed | Services + HTTP: `provideHttpClientTesting()`, `HttpTestingController`; testing signals and computed values | Test `CartStore` and a user API service |
-| Thu | Async + routing: `fakeAsync/tick`, `waitForAsync`, testing guards and interceptors, `RouterTestingHarness` | Test the auth guard + error interceptor |
+| Thu | Async + routing: `fakeAsync/tick`, `waitForAsync`, testing guards and interceptors, `RouterTestingHarness` | Test the auth guard, role guard, auth interceptor + error interceptor |
 | Fri | **Vitest**: why Angular switched; run `ng g @schematics/angular:refactor-jasmine-vitest` on a *copy* of karma-lab; compare syntax (`vi.fn`, `vi.spyOn`, fake timers) | Migrate the copy, get all tests green, compare run times |
 | Sat | Code coverage (`ng test --coverage`), what to test vs not; write tests for the Task Board until ≥ 70% coverage | Task Board tests in **Vitest** |
 | Sun | Revision + questions. **Phase 1 checkpoint:** explain zoneless, signals vs RxJS, and Karma vs Vitest out loud in 2 minutes each | — |
@@ -192,7 +192,7 @@ Folder: `07-Architecture-Auth/week10/` → project `AuthLab` (API + Angular clie
 | Tue | **ASP.NET Core Identity** with EF Core + Postgres: users, roles, password rules, lockout | Register/login endpoints with Identity |
 | Wed | Issue **JWT access token + refresh token** (stored hashed, rotation, revocation); `AddAuthentication().AddJwtBearer()` | Login → access + refresh; `/refresh` endpoint |
 | Thu | **Role-based** `[Authorize(Roles="Owner")]`, **policy-based** (`AddAuthorizationBuilder().AddPolicy`), **permission claims**, **resource-based** auth (a Member can only read *their own* data) | Owner/Admin/Member endpoints + a "MyProfile only" rule |
-| Fri | Angular side: login form, auth service with signals (`currentUser`, `isLoggedIn`, `roles`), **functional interceptor** to attach the token + silent refresh on 401, role guard (`canMatch`), hide UI by role | Full login flow working end-to-end |
+| Fri | **Auth part 3 (real API):** swap the Week 3 mock `AuthService` for real calls. Login form → `/login`, access token kept in memory, roles read from the JWT claims, interceptor attaches the real token, **silent refresh on 401** (share *one* refresh call when several requests fail at once), logout clears state + revokes the refresh token, `returnUrl` after login. Reminder: hiding UI by role is UX, not security; the API enforces it | Full login → refresh → logout flow working end-to-end against the AuthLab API |
 | Sat | Token storage trade-offs (memory vs localStorage vs **httpOnly cookie**), CSRF, CORS with credentials, the BFF pattern; OAuth2/OIDC concepts + "Login with Google" (optional, free) | Move the refresh token to an httpOnly cookie |
 | Sun | Revision + questions. **Phase 3 checkpoint:** whiteboard the login → refresh → logout sequence | — |
 

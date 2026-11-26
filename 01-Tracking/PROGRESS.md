@@ -6,7 +6,7 @@ Tick `[x]` when the week's ✅ deliverable is **committed to GitHub**, not just 
 
 | Week | Dates | Topic | Status | Hours | Repo/commit link |
 |---|---|---|---|---|---|
-| 0 | 26–29 Nov | Setup, Git, GitHub | [ ] Day 1 ✅ Day 2 ✅ Day 3 ✅ | 3.25 | [421c6f0](https://github.com/MAJadhav/FullStackRoadmap/commit/421c6f0) · [d9a5c83](https://github.com/MAJadhav/FullStackRoadmap/commit/d9a5c83) · [e73dad9](https://github.com/MAJadhav/FullStackRoadmap/commit/e73dad9) |
+| 0 | 26–29 Nov | Setup, Git, GitHub | [x] Days 1–4 ✅ | 4.0 | [421c6f0](https://github.com/MAJadhav/FullStackRoadmap/commit/421c6f0) · [d9a5c83](https://github.com/MAJadhav/FullStackRoadmap/commit/d9a5c83) · [e73dad9](https://github.com/MAJadhav/FullStackRoadmap/commit/e73dad9) · [ab20c29](https://github.com/MAJadhav/FullStackRoadmap/commit/ab20c29) · [90ade6d](https://github.com/MAJadhav/FullStackRoadmap/commit/90ade6d) |
 | 1 | 30 Nov–6 Dec | Standalone, control flow, signals basics, @defer | [ ] | | |
 | 2 | 7–13 Dec | Zoneless, linkedSignal, resource, RxJS interop, routing/HTTP | [ ] | | |
 | 3 | 14–20 Dec | Typed + Signal Forms, signal store, SSR, performance | [ ] | | |
@@ -29,33 +29,34 @@ Tick `[x]` when the week's ✅ deliverable is **committed to GitHub**, not just 
 ## Skill self-ratings (0 = never used · 5 = can teach it)
 
 Fill in the Day-0 column in Week 0, then re-rate after each phase.
+Scale: 0 never used · 1 read/watched about it · 2 tutorial level, need docs for everything · 3 used in real work, docs for edge cases · 4 confident, can debug + explain trade-offs · 5 can teach it.
 
 | Skill | Day 0 | After W4 | After W8 | After W10 | After W16 |
 |---|---|---|---|---|---|
-| Standalone + control flow | | | | | |
-| Signals (signal/computed/effect/linkedSignal) | | | | | |
-| Zoneless change detection | | | | | |
-| resource / httpResource | | | | | |
-| Signal Forms | | | | | |
-| SSR + hydration | | | | | |
-| Jasmine + Karma | | | | | |
-| Vitest | | | | | |
-| C# OOP + generics | | | | | |
-| LINQ | | | | | |
-| async/await in C# | | | | | |
-| ASP.NET Core Web API | | | | | |
-| Dependency Injection (.NET) | | | | | |
-| SQL (joins, CTEs, window functions) | | | | | |
-| Indexes + EXPLAIN | | | | | |
-| EF Core (migrations, relationships, querying) | | | | | |
-| Clean Architecture | | | | | |
-| xUnit + integration tests | | | | | |
-| Identity + JWT + refresh tokens | | | | | |
-| Role / policy / resource-based auth | | | | | |
-| Docker | | | | | |
-| CI/CD (GitHub Actions) | | | | | |
-| Cloud deployment | | | | | |
-| Microservices concepts | | | | | |
+| Standalone + control flow | 2 | | | | |
+| Signals (signal/computed/effect/linkedSignal) | 0 | | | | |
+| Zoneless change detection | 0 | | | | |
+| resource / httpResource | 0 | | | | |
+| Signal Forms | 0 | | | | |
+| SSR + hydration | 0 | | | | |
+| Jasmine + Karma | 0 | | | | |
+| Vitest | 0 | | | | |
+| C# OOP + generics | 1 | | | | |
+| LINQ | 0 | | | | |
+| async/await in C# | 0 | | | | |
+| ASP.NET Core Web API | 0 | | | | |
+| Dependency Injection (.NET) | 0 | | | | |
+| SQL (joins, CTEs, window functions) | 0 | | | | |
+| Indexes + EXPLAIN | 0 | | | | |
+| EF Core (migrations, relationships, querying) | 0 | | | | |
+| Clean Architecture | 0 | | | | |
+| xUnit + integration tests | 0 | | | | |
+| Identity + JWT + refresh tokens | 0 | | | | |
+| Role / policy / resource-based auth | 0 | | | | |
+| Docker | 0 | | | | |
+| CI/CD (GitHub Actions) | 0 | | | | |
+| Cloud deployment | 0 | | | | |
+| Microservices concepts | 0 | | | | |
 
 ## Phase checkpoints
 - [ ] After W4: zoneless signals CRUD UI + tests in 2 hrs

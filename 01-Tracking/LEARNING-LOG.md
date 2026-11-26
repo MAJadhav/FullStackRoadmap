@@ -14,6 +14,26 @@ Newest entry at the top. Copy the template for each session.
 
 ---
 
+### Week 0 · Day 4 · 26 Nov 2026 · ~0.75 h
+**Topic:** Roadmap review, skill self-ratings, Day 3 self-check
+**What I did:**
+- Fixed and saved the Bruno request (`Get user 1`, assertion `res.status eq 200` passes).
+- Answered the Day 3 self-check questions (trainer review below them).
+- Read `00-Roadmap/ROADMAP.md` fully.
+- Filled in the Day-0 skill ratings in `PROGRESS.md`: Standalone + control flow **2** (used at work), C# OOP + generics **1** (basic syntax, loops, functions, operators only), everything else **0**.
+- **Roadmap change requested:** I've never built auth in Angular, and Phase 1 had none of it. Angular auth is now learned in 3 parts: mock auth service + guards (Week 2 Sat), mock login + auth interceptor + roles in the Task Board (Week 3 Sat), real API + silent refresh (Week 10 Fri). No dates moved. Decision #8 in `DECISIONS.md`; 3 new Angular auth questions in `INTERVIEW-QA.md` (13–15).
+
+**What I learned (in my own words):**
+- A port picks *which program* on a machine receives the traffic (the IP picks the machine). 5432 is just PostgreSQL's default.
+- A superuser bypasses all permission checks (even row-level security) and can run OS commands via `COPY ... TO PROGRAM`, so SQL injection + superuser = server takeover.
+- Angular auth needs a backend to issue real tokens, but the Angular side (guards, interceptor, auth store) can be learned against a mock first.
+
+**Code / commit:** `ab20c29` (Bruno saved), `90ade6d` (self-check answers), this session's tracking commit
+**Stuck on / questions:** —
+**Confidence (1–5):** 5
+
+---
+
 ### Week 0 · Day 3 · 26 Nov 2026 · ~1.75 h
 **Topic:** Database GUI, first database, app role, API client
 **What I did:**
@@ -46,6 +66,8 @@ Answer: Both users and groups are roles. Role with LOGIN is actually a user. and
 Answer: an API when connects to postgreSQl database, it has certain permissions based on the role it possesses. If it's postgres(superuser) then it will have all the permissions of the operations for the server + database. An attacker can take advantgage of it and can steal your data or turn down whole server. a role with limited permissions of operations can do little damage rather than putting entire server at risk in same case. 
 3. What does port 5432 mean, and why did we ignore the 5433 instance?
 Answer: ports are the access points of the SQL server where the database processess are running and where it makes connection with the application. each server should have it's own port. two servers can't run on same port. And by default we should use the 5432 to avoid any risks.
+
+**Trainer review (26 Nov):** 1 ✅ correct (`CREATE USER` = `CREATE ROLE ... LOGIN`). 2 ✅ correct; extra point: a superuser bypasses row-level security and can run OS commands with `COPY ... TO PROGRAM`, so one SQL-injection bug becomes a server takeover. 3 🟡 partly correct: a port is an OS/network concept (the IP picks the machine, the port picks the program), not something SQL-specific, and 5432 is only the *default*. Another port isn't "risky". We ignored 5433 because it's a second, separate cluster (own data folder, roles, passwords). One server = no "where is my data?" confusion, and less RAM.
 
 **Confidence (1–5):** 4
 
