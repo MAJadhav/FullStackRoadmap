@@ -1,16 +1,21 @@
 meta {
-  name: Untitled
+  name: Get user 1
   type: http
   seq: 1
 }
 
 get {
-  url: 
+  url: https://jsonplaceholder.typicode.com/users/1
   body: none
   auth: inherit
 }
 
+assert {
+  res.status: eq 200
+}
+
 settings {
   encodeUrl: true
+  timeout: 0
   forwardAuthorizationHeader: false
 }

@@ -14,6 +14,40 @@ Newest entry at the top. Copy the template for each session.
 
 ---
 
+### Week 0 · Day 3 · 26 Nov 2026 · ~1.75 h
+**Topic:** Database GUI, first database, app role, API client
+**What I did:**
+- Registered the local server in **pgAdmin 4 v9.19** (`Local PG18`, localhost:5432).
+- Created database **`playgroundDb`** and looked at the SQL pgAdmin generates before saving.
+- Created role **`dev_user`** (`LOGIN`, `CREATEDB`, not superuser) and made it the owner of `playgroundDb`.
+- Registered a second pgAdmin server as `dev_user`; created table `hello`, inserted 2 rows, selected them.
+- Installed **Bruno 4.4.0**; created collection `Bruno/playground/` inside the repo.
+
+`\du` result:
+| Role | Attributes |
+|---|---|
+| `dev_user` | Create DB |
+| `postgres` | Superuser, Create role, Create DB, Replication, Bypass RLS |
+
+**What I learned:**
+- Every pgAdmin click is just generated SQL (SQL tab in the create dialog).
+- **Identifier case-folding:** unquoted names are folded to lowercase. `playgroundDb` → `playgrounddb` → "database does not exist". `"playgroundDb"` (double quotes) keeps the exact case. `'...'` (single quotes) is a text value, not a name. Convention: lowercase snake_case everywhere so quotes are never needed.
+- Apps never connect as the `postgres` superuser. Use a limited role (least privilege).
+- Since PostgreSQL 15, non-owners can't create objects in the `public` schema, but the **database owner** can. That's why `dev_user` owns the database.
+- `CREATEDB` lets `dotnet ef database update` create the database in Week 8.
+- Bruno saves collections as plain-text `.bru` files you can commit to Git. **Requests must be saved with Ctrl+S** or the file stays empty.
+
+**Code / commit:** `e73dad9 Week 0 Day 3: pgAdmin, playgroundDb Database, dev_user, Bruno`
+**Stuck on / questions:** `ALTER DATABASE playgroundDb ...` failed with "does not exist" (case-folding, see above). Fixed with double quotes.
+**Self-check (answer in your own words):**
+1. Role vs user in PostgreSQL?
+2. Why shouldn't an API connect as `postgres`?
+3. What does port 5432 mean, and why did we ignore the 5433 instance?
+
+**Confidence (1–5):** _(fill in)_
+
+---
+
 ### Week 0 · Day 1 · 26 Nov 2026 · 0.5 h
 **Topic:** Verify the toolchain
 **What I did:** Ran the verify script.

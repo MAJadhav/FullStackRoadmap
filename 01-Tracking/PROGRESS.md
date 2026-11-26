@@ -6,7 +6,7 @@ Tick `[x]` when the week's ✅ deliverable is **committed to GitHub**, not just 
 
 | Week | Dates | Topic | Status | Hours | Repo/commit link |
 |---|---|---|---|---|---|
-| 0 | 26–29 Nov | Setup, Git, GitHub | [ ] Day 1 ✅ Day 2 ✅ | 1.5 | [421c6f0](https://github.com/MAJadhav/FullStackRoadmap/commit/421c6f0) |
+| 0 | 26–29 Nov | Setup, Git, GitHub | [ ] Day 1 ✅ Day 2 ✅ Day 3 ✅ | 3.25 | [421c6f0](https://github.com/MAJadhav/FullStackRoadmap/commit/421c6f0) · [d9a5c83](https://github.com/MAJadhav/FullStackRoadmap/commit/d9a5c83) · [e73dad9](https://github.com/MAJadhav/FullStackRoadmap/commit/e73dad9) |
 | 1 | 30 Nov–6 Dec | Standalone, control flow, signals basics, @defer | [ ] | | |
 | 2 | 7–13 Dec | Zoneless, linkedSignal, resource, RxJS interop, routing/HTTP | [ ] | | |
 | 3 | 14–20 Dec | Typed + Signal Forms, signal store, SSR, performance | [ ] | | |
