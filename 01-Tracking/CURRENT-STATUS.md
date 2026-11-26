@@ -1,25 +1,32 @@
 # Current Status
 
-> Update this file at the end of **every** session. Paste it at the start of each new chat with your trainer.
+> The trainer updates this file at the end of every session. You can also edit it yourself, and the trainer reads it at the start of each chat.
 
 | Field | Value |
 |---|---|
-| Last updated | 25 Nov 2026 |
+| Last updated | 26 Nov 2026 |
 | Current phase | 0 — Setup |
-| Current week / day | Week 0, Day 1 (not started) |
-| Hours this week | 0 |
-| Total hours so far | 0 |
-| On track? | ✅ Yes (plan just created) |
+| Current week / day | Week 0 · Day 1 ✅ · Day 2 ✅ · next: Day 3 |
+| Hours this week | 1 |
+| Total hours so far | 1.5 |
+| On track? | ✅ Yes (ahead: Day 2 finished before Day 1) |
 
-## Last session
-- Roadmap created and confirmed with the trainer. Decisions: 16 weeks at 2–3 hrs/day, Gym Management App capstone, Jasmine/Karma + Vitest, build on Angular 21 → upgrade to 22.
+## Last session (26 Nov 2026)
+- ✅ **Day 2 done:** public repo created and first commit pushed: `421c6f0 Week 0: roadmap setup` on branch `master`.
+- ✅ **Day 1:** toolchain verified: Node 24.18, Angular CLI 21.2.19, .NET SDK 10.0.401 / runtime 10.0.12, dotnet-ef 10.0.12, Git 2.55, VS Code 1.148. Details in LEARNING-LOG.
+- ✅ **PostgreSQL fixed:** `psql` 18.7 on PATH (`C:\Program Files\PostgreSQL\18\bin`).
+- PostgreSQL instances: `postgresql-x64-18` **Running/Automatic**, data in `C:\Program Files\PostgreSQL\18\data`, port 5432. **Use this one for everything.** `postgresql-x64-18-5433` is Stopped/Disabled (data `C:\PostgreSQL\data_5433`) and ignored.
+- Agreed (25 Nov): the trainer updates `CURRENT-STATUS.md`, `LEARNING-LOG.md` and `PROGRESS.md` at the end of each session; you commit them along with your code.
+- GitHub account **MAJadhav** is connected to Claude. The trainer reads `FullStackRoadmap` to review your commits.
 
 ## Next session
-- **Week 0, Day 1:** run all the verify commands from `README.md` §2 and paste the output into `LEARNING-LOG.md`. Install `dotnet-ef` if missing.
+- **Commit:** `git add . ; git commit -m "Week 0 Day 1: toolchain verified" ; git push`
+- **Day 3:** connect pgAdmin/DBeaver to local PostgreSQL, create database `playground`, install Bruno or Postman.
 
 ## Blockers / questions for the trainer
-- _(none yet)_
+- _(none)_
 
 ## Links
-- GitHub repo: _(add after Week 0 Day 2)_
+- GitHub account: https://github.com/MAJadhav
+- Repo: https://github.com/MAJadhav/FullStackRoadmap
 - Live app: _(add after Week 15)_
