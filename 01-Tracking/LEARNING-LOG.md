@@ -44,7 +44,7 @@ Newest entry at the top. Copy the template for each session.
 2. Why shouldn't an API connect as `postgres`?
 3. What does port 5432 mean, and why did we ignore the 5433 instance?
 
-**Confidence (1–5):** _(fill in)_
+**Confidence (1–5):** 4
 
 ---
 
