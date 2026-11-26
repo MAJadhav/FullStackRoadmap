@@ -41,8 +41,11 @@ Newest entry at the top. Copy the template for each session.
 **Stuck on / questions:** `ALTER DATABASE playgroundDb ...` failed with "does not exist" (case-folding, see above). Fixed with double quotes.
 **Self-check (answer in your own words):**
 1. Role vs user in PostgreSQL?
+Answer: Both users and groups are roles. Role with LOGIN is actually a user. and role without LOGIN is Group of permissions.that can be assigned to other roles.
 2. Why shouldn't an API connect as `postgres`?
+Answer: an API when connects to postgreSQl database, it has certain permissions based on the role it possesses. If it's postgres(superuser) then it will have all the permissions of the operations for the server + database. An attacker can take advantgage of it and can steal your data or turn down whole server. a role with limited permissions of operations can do little damage rather than putting entire server at risk in same case. 
 3. What does port 5432 mean, and why did we ignore the 5433 instance?
+Answer: ports are the access points of the SQL server where the database processess are running and where it makes connection with the application. each server should have it's own port. two servers can't run on same port. And by default we should use the 5432 to avoid any risks.
 
 **Confidence (1–5):** 4
 
