@@ -12,7 +12,7 @@ Tick `[x]` when the week's ✅ deliverable is **committed to GitHub**, not just 
 | Week | Planned dates (roadmap) | Topic | Target finish (15 Jan goal) | Actual start | Actual finish | Status | Hours | Repo/commit link |
 |---|---|---|---|---|---|---|---|---|
 | 0 | 26–29 Nov | Setup, Git, GitHub | — | 26 Nov | 26 Nov | [x] Days 1–4 ✅ | 4.0 | [421c6f0](https://github.com/MAJadhav/FullStackRoadmap/commit/421c6f0) · [d9a5c83](https://github.com/MAJadhav/FullStackRoadmap/commit/d9a5c83) · [e73dad9](https://github.com/MAJadhav/FullStackRoadmap/commit/e73dad9) · [ab20c29](https://github.com/MAJadhav/FullStackRoadmap/commit/ab20c29) · [90ade6d](https://github.com/MAJadhav/FullStackRoadmap/commit/90ade6d) · [3fba42b](https://github.com/MAJadhav/FullStackRoadmap/commit/3fba42b) |
-| 1 | 30 Nov–6 Dec | Standalone, control flow, signals basics, @defer | 29 Nov | 27 Nov | | [ ] | | |
+| 1 | 30 Nov–6 Dec | Standalone, control flow, signals basics, @defer | 29 Nov | 27 Nov | | [ ] Day 1 ✅ | ~1.0 | _(Day 1 commit)_ |
 | 2 | 7–13 Dec | Zoneless, linkedSignal, resource, RxJS interop, routing/HTTP | 2 Dec | | | [ ] | | |
 | 3 | 14–20 Dec | Typed + Signal Forms, signal store, SSR, performance | 5 Dec | | | [ ] | | |
 | 4 | 21–27 Dec | Jasmine + Karma → Vitest | 8 Dec | | | [ ] | | |
