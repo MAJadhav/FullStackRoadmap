@@ -1,0 +1,64 @@
+.inputBox {
+    width: 15rem;
+    height: 2rem;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 2rem;
+    padding: 4px 5px;
+}
+
+.btn-class {
+    padding: 0.5rem 1rem;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: beige;
+}
+
+.categories {
+    padding: 0.5rem 0.5rem;
+    border: 1px solid #00659f;
+    border-radius: 5px;
+    background-color: #c2e9ff;
+    margin-right: 0.5rem;
+    min-width: 5rem;
+}
+.active{
+    background-color: #00659f;
+    color: #fff;
+}
+
+.stock-status {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+    background-color: #00659f;
+}
+.low {
+    background-color: orange;
+}
+.out {
+    background-color: red;
+}
+.in-stock {
+    background-color: green;
+}
+.zebra {
+    background-color: #bbb;
+} 
+.current-price {
+    color: green;
+    font-weight: 500;
+}
+.old-price {
+    color: rgb(177, 101, 101);
+    font-weight: 400;
+}
+
+td {
+    min-width: 3rem;
+}
+.center-align {
+    text-align: center;
+}

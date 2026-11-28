@@ -1,0 +1,68 @@
+<h2>Product List</h2>
+<div>
+    <input #box (input)="searchTerm.set(box.value)" [value]="searchTerm()" placeholder="Search products..."
+        class="inputBox" />
+
+</div>
+<br>
+<div>
+    <button class="categories" [class.active]="category()==='all'" (click)="setCategory('all')">All</button>
+    <button class="categories" [class.active]="category()==='supplements'"
+        (click)="setCategory('supplements')">Supplements</button>
+    <button class="categories" [class.active]="category()==='equipment'"
+        (click)="setCategory('equipment')">Equipment</button>
+    <button class="categories" [class.active]="category()==='apparel'" (click)="setCategory('apparel')">Apparel</button>
+</div>
+<h5>Showing {{filtered().length}} of {{products().length}} Products</h5>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (product of filtered(); track product.id; let i = $index, last = $last) {
+            <tr [class.zebra]="$odd">
+                <td class="center-align">{{$index + 1}}</td>
+                <td>{{product.name}} <input type="text" placeholder="note"></td>
+                <td class="center-align">
+                    @if (product.discountPrice) {
+                    <span class="old-price"><s>{{product.price}}</s></span>
+                    <span class="current-price">{{product.discountPrice}}</span>
+                    } @else {
+                    <span class="">{{product.price}}</span>
+                    }
+                </td>
+                <td class="center-align">
+                    @switch (product.stock) {
+                    @case ('low') {
+                    <div class="stock-status low"></div>
+                    }
+                    @case ('in-stock') {
+                    <div class="stock-status in-stock"></div>
+                    }
+                    @default {
+                    <div class="stock-status out"></div>
+                    }
+                    }
+                </td>
+            </tr>
+            }
+            @empty {
+            <tr>
+                <td colspan="4">
+                    <div>No products match '{{searchTerm()}}'</div><button (click)="clearSearch()"
+                        class="btn-class">Clear</button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <button (click)="shuffleList()" class="btn-class">Shuffle List</button>
+</div>
