@@ -14,6 +14,116 @@ Newest entry at the top. Copy the template for each session.
 
 ---
 
+### Week 1 · Day 2 · 28 Nov 2026 · ~2.5 h (estimate, correct it if wrong)
+**Topic:** Built-in control flow: `@if / @else if / @else`, `@for` with required `track`, `@empty`, `@switch`, `@let`
+
+**Warm-up (Day 1 recall, no notes):**
+- My answer: 4A didn't update because the value changed but nothing told Angular to render. In zoneless Angular, signals, host and template event listeners (`click`, `input`…) and the `async` pipe getting a new value all notify Angular.
+- **Trainer review:** ✅ Correct, and with 3+ notifiers named. The Day 1 Q2 gap is closed. Remaining one to remember: `ChangeDetectorRef.markForCheck()` (the manual escape hatch).
+
+**What I did:**
+- Built `ProductList` (`src/app/products/product-list/`) with gym products from `product.model.ts`, rendered from `app.html`.
+- State in signals: `products`, `searchTerm`, `category`, plus a `computed()` called `filtered` (case-insensitive name search + category filter).
+- Search box without `FormsModule`: `#box (input)="searchTerm.set(box.value)" [value]="searchTerm()"`, a hand-made two-way binding.
+- Category buttons with `[class.active]`, `@for` + `track product.id`, `@if/@else` for the discount price, `@switch` for the stock dot, `@empty` row with a Clear button, Shuffle button.
+- Ran the `track` experiment (results below).
+- **My change:** used `$odd` instead of `$even` for the zebra rows, because row numbers are `$index + 1`, so `$odd` (index 1, 3, 5) greys out displayed rows 2, 4, 6.
+
+**What I learned (in my own words):**
+- Control flow is built into the compiler: no `NgIf`/`NgFor`/`CommonModule` imports, no `<ng-template>`/`<ng-container>` wrappers, and better type narrowing (`@if (x(); as v)`).
+- `track` tells Angular which item each DOM row belongs to. Good identity = existing DOM rows are moved or kept instead of destroyed and rebuilt.
+- `#ref` on an `<input>` gives the template the real DOM element, so `ref.value` is the typed text. `(input)` alone only goes box → signal; `[value]` is needed for signal → box (that's why Clear works).
+
+**Trainer code review (commit `661f579`):**
+| # | Item | Verdict |
+|---|---|---|
+| 1 | Signals + `computed()` for `filtered`, Shuffle returns a **new** array | ✅ Right, and it applies the Day 1 `Object.is` lesson |
+| 2 | `[value]` + `(input)` hand-made two-way binding | ✅ Exactly what `ngModel` does for you behind the scenes |
+| 3 | `@if/@else` price, `@switch` stock, `@empty` row with `colspan="4"` | ✅ `@empty` inside a table with colspan is a nice touch |
+| 4 | `$odd` instead of `$even` | ✅ Correct reasoning. `$even`/`$odd` describe the 0-based `$index`, not the displayed number |
+| 5 | **`@let` not used** (acceptance criterion 4) | ❌ The header uses `{{filtered().length}}` directly. Fix: `@let shown = filtered().length;` and `@let total = products().length;` above the `<h5>`, then `Showing {{ shown }} of {{ total }}` |
+| 6 | **Clear resets only `searchTerm`** (criterion 7 said both signals) | 🟡 Screenshots: search "wh" + Equipment → Clear → Equipment stays selected. Rename `clearSearch()` → `clearFilters()` and also `category.set('all')` |
+| 7 | `let i = $index, last = $last` declared but never used | 🟡 Either use `{{ i + 1 }}` or delete the aliases. Unused template variables are noise |
+| 8 | Build warning **`NG8113: RouterOutlet is not used within the template of App`** | 🟡 `app.html` no longer has `<router-outlet>`, but `app.ts` still imports `RouterOutlet` (plus unused `inject`, `OnInit`). Since v19 the compiler warns about unused standalone imports. Remove them now and add the outlet back for lazy routes on Day 6 |
+| 9 | `p.name.toLocaleLowerCase()` vs `term.toLowerCase()` | Nit: use the same method on both sides. `toLocale…` can behave differently in some locales (e.g. Turkish "I") |
+| 10 | Empty message says `No products match ''` when the search is empty but the category has no items | Optional: a good `@if` exercise. `@if (searchTerm()) { …match '{{searchTerm()}}' } @else { No products in this category }` |
+
+**`track` experiment:**
+- `track product.id`: typed a note in the Whey Protein row, shuffled → the note **moved with Whey Protein**.
+- `track $index`: same steps → the note **stayed in row 1**, now next to a different product.
+- **Why (trainer):** the note's text lives in the **DOM** (`<input>`'s own value), not in any signal. With `track product.id` Angular sees the same keys in a new order and **moves** the existing `<tr>` elements, so the input travels with its product. With `track $index` the keys are 0, 1, 2… before and after the shuffle, so Angular thinks every row is the same item, **keeps every `<tr>` where it is** and only rewrites the bindings (name, price, stock). The unbound input keeps its old text. The same bug shows up with focus, scroll position, animations and child component state. **Use `$index` only for lists that never reorder.**
+
+**Compile errors (trainer ran these on your code with Angular 21.2.26, real output):**
+1. Remove `track`:
+   ```
+   ✘ [ERROR] NG5002: @for loop must have a "track" expression
+       src/app/products/product-list/product-list.html:28:12
+   ```
+   `track` is enforced at **compile time**, so the app won't even build. Compare `trackBy`, which was optional and silently missing in most codebases.
+2. Use a `@let` before declaring it (`{{ shown }}` on line 16, `@let shown = …` on line 17):
+   ```
+   ✘ [ERROR] NG8016: Cannot read @let declaration 'shown' before it has been defined.
+   ```
+   `@let` is **not hoisted**. It works like `const`/`let` in JS (temporal dead zone), not like `var`.
+3. Extra: assign to a `@let` (`(click)="total = 0"`):
+   ```
+   ✘ [ERROR] NG8015: Cannot assign to @let declaration 'total'.
+   ```
+   `@let` is **read-only**. To change something, change the signal it reads from.
+
+**Optional bonus (trainer ran it in a scratch copy, nothing committed):**
+- Wrote an `OldList` component with `*ngIf … else noData`, `*ngFor … trackBy: trackById`, `[ngSwitch]`/`*ngSwitchCase`/`*ngSwitchDefault`, importing `NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault`.
+- **`ng build` gives no deprecation warning.** The deprecation is a JSDoc `@deprecated` tag in Angular's typings, so you only see it as **strikethrough in VS Code** (hover shows "Use the `@if` block instead…").
+- Ran `ng generate @angular/core:control-flow --path src/app/old-list`. It rewrote the template and **also emptied the `imports` array** in the `.ts`:
+  ```html
+  @if (products().length > 0) {
+    <ul>
+      @for (p of products(); track trackById(i, p); let i = $index) {
+        <li>
+          {{ i + 1 }}. {{ p.name }}
+          @switch (p.stock) {
+            @case ('low') { <span>Low</span> }
+            @case ('in-stock') { <span>In stock</span> }
+            @default { <span>Out</span> }
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p>No products</p>
+  }
+  ```
+- Things to notice: `<ng-template #noData>` became `@else`, the `<ng-container [ngSwitch]>` wrapper disappeared, and the old `trackBy` function was kept as **`track trackById(i, p)`**. It works, but after migrating by hand you'd simplify it to `track p.id` and delete the function.
+
+**Self-check (my answers → trainer review):**
+1. **`track p.id` vs `track $index` after a shuffle?**
+   My answer: with `p.id` the note followed Whey Protein; with `$index` it stayed at index 0, because Angular compares by id vs by index, and the indexes don't change.
+   **Trainer:** ✅ Correct. Precise version: the note lives in the DOM, and `track` decides whether Angular **moves DOM nodes** (id) or **keeps them in place and re-binds data** (index). See the experiment explanation above.
+2. **Why is `track` required when `trackBy` was optional?**
+   My answer: without trackBy, lists rebuilt their DOM on every change, which costs performance on large lists, and because it was optional devs forgot it.
+   **Trainer:** 🟡 The second half is right; the first half overstates it. Without `trackBy`, `*ngFor` tracked by **object reference**, so it did *not* rebuild on every change. It rebuilt when the **references** changed: e.g. re-fetching the list from an API gives new objects with the same ids, so every row was destroyed and re-created (expensive, and you lose DOM state: focus, typed input, scroll, animations). **Corrected answer:** "Identity is the decision that matters most for list performance and correctness, and the old default (object reference) broke as soon as data was re-fetched or made immutable. Making `track` required forces you to choose identity explicitly, and the new `@for` diffing is built around it."
+3. **Week 14 upgrade to v22: risk of a leftover `*ngIf`, and the migration command?**
+   My answer: deprecated since v20 in favour of control flow; likely removed in v22; `ng generate @angular/core:control-flow`.
+   **Trainer:** 🟡 The command ✅ and the v20 deprecation ✅. ⚠️ **"Removed in v22" was the trainer's mistake** (it came from 2025 articles and an older docs note "Intent to remove in v22"). Checked on npm on 28 Nov 2026: **Angular 22.3.0 (latest) still ships `NgIf`/`NgFor`/`NgSwitch`**, still deprecated, and the JSDoc now reads "Intent to remove in a **future major release**" (same text in your 21.2.26). **Corrected answer:** "Deprecated since v20, not yet removed as of v22.3. Leftover `*ngIf` still compiles after the Week 14 upgrade, but it's technical debt that breaks whenever a future major removes it, and the migration is one command: `ng generate @angular/core:control-flow` (also offered during `ng update`). Re-check the removal version in the v22→next update guide."
+4. **`@let total = …` in the template vs `computed()` in the class: when to use each?**
+   My answer: `@let` if it's calculated from the computed output and only used in the template. (Didn't understand the question fully.)
+   **Trainer:** 🟡 On the right track. The question is about **where a derived value should live**:
+   | Use `computed()` in the class when… | Use `@let` in the template when… |
+   |---|---|
+   | It's **logic** (filtering, sorting, totals, business rules) | It's **presentation only**: a short alias or display-only arithmetic |
+   | TypeScript code needs it too (methods, other `computed`s, services) | Only this template reads it |
+   | You want to **unit-test** it (Week 4: `expect(component.filtered().length)…`) | It avoids repeating a long expression, e.g. `@let user = user$ \| async;` (subscribe once) |
+   | It's expensive: `computed()` **caches** and only recalculates when a dependency signal changes | It's cheap. `@let` is a template expression, re-evaluated whenever the view is checked, like `{{ }}` |
+   In your code: `filtered` → `computed()` ✅ (logic, testable). "Showing X of Y" → `@let shown = filtered().length` ✅ (display alias reading an already-cached computed).
+   **Interview one-liner:** "Derived *state* goes in `computed()`: cached, testable, reusable. `@let` is a read-only template alias for *presentation*. It removes repetition but holds no logic."
+
+**Code / commit:** `661f579 Week 1 Day 2: built in control flow product list`. Fix-up for review items 5–8: _(add commit)_
+**Stuck on / questions:** Template ref `#box` + `(input)` (explained in chat; summary under "What I learned"). Self-check Q4 wording.
+**Revise on Sunday:** Q2 (what the old default tracking actually was) + Q4 (`computed` vs `@let` table).
+**Confidence (1–5):** 5
+
+---
+
 ### Week 1 · Day 1 · 27 Nov 2026 · ~1 h
 **Topic:** How a new Angular 21 project is put together (standalone, `app.config.ts`, `provide*` functions, zoneless, application builder, Vitest)
 **What I did:**
@@ -80,7 +190,7 @@ Newest entry at the top. Copy the template for each session.
    - Your terminal line is **Vite's dependency pre-bundling**: Vite bundles packages from `node_modules` (Angular, RxJS) once and caches them in `.angular/cache`, so later reloads are fast. "Re-optimizing" means it rebuilt that cache.
    - **Interview one-liner:** "Since v17 Angular builds with esbuild through the application builder, and `ng serve` uses Vite as the dev server. Builds are much faster than webpack, and one builder covers browser, SSR and prerendering."
 
-**Code / commit:** _(add after you commit `ng21-lab` + this log)_
+**Code / commit:** `b94cced Week 1 Mon: ng21-lab project anatomy`
 **Stuck on / questions:** Q2 (zoneless notifications) and Q3 (builders). Full answers written above; revise them on Sunday.
 **Confidence (1–5):** 3
 

@@ -13,7 +13,9 @@
         (click)="setCategory('equipment')">Equipment</button>
     <button class="categories" [class.active]="category()==='apparel'" (click)="setCategory('apparel')">Apparel</button>
 </div>
-<h5>Showing {{filtered().length}} of {{products().length}} Products</h5>
+@let shown = filtered().length;
+@let total = products().length;
+<h5>Showing {{shown}} of {{total}} Products</h5>
 <div>
     <table>
         <thead>
@@ -27,7 +29,7 @@
         <tbody>
             @for (product of filtered(); track product.id; let i = $index, last = $last) {
             <tr [class.zebra]="$odd">
-                <td class="center-align">{{$index + 1}}</td>
+                <td class="center-align">{{i + 1}}</td>
                 <td>{{product.name}} <input type="text" placeholder="note"></td>
                 <td class="center-align">
                     @if (product.discountPrice) {
@@ -55,7 +57,7 @@
             @empty {
             <tr>
                 <td colspan="4">
-                    <div>No products match '{{searchTerm()}}'</div><button (click)="clearSearch()"
+                    <div>No products match '{{searchTerm()}}'</div><button (click)="clearFilters()"
                         class="btn-class">Clear</button>
                 </td>
             </tr>

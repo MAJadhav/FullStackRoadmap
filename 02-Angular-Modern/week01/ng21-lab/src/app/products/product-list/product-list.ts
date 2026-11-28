@@ -19,8 +19,9 @@ export class ProductList {
     return this.products().filter(p => p.name.toLocaleLowerCase().includes(term) && (cat === 'all' || p.category === cat));
   });
 
-  clearSearch() {
+  clearFilters() {
     this.searchTerm.set('');
+    this.category.set('all');
   }
 
   setCategory(category: Category | 'all') {
